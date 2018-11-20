@@ -1,0 +1,232 @@
+{  
+  "_via_settings":{  
+    "ui":{  
+      "annotation_editor_height":25,
+      "annotation_editor_fontsize":0.8,
+      "leftsidebar_width":18,
+      "image_grid":{  
+        "img_height":80,
+        "rshape_fill":"none",
+        "rshape_fill_opacity":0.3,
+        "rshape_stroke":"yellow",
+        "rshape_stroke_width":2,
+        "show_region_shape":true,
+        "show_image_policy":"all"
+      },
+      "image":{  
+        "region_label":"region_id",
+        "region_label_font":"10px Sans",
+        "on_image_annotation_editor_placement":"NEAR_REGION"
+      }
+    },
+    "core":{  
+      "buffer_size":18,
+      "filepath":{  
+
+      },
+      "default_filepath":""
+    },
+    "project":{  
+      "name":"fpy"
+    }
+  },
+  "_via_img_metadata":{  
+    "1.jpg71949":{  
+      "filename":"1.jpg",
+      "size":71949,
+      "regions":[  
+        {  
+          "shape_attributes":{  
+            "name":"polyline",
+            "all_points_x":[  
+              132,
+              121,
+              117,
+              120,
+              127,
+              102,
+              57,
+              31,
+              19,
+              17,
+              34,
+              62,
+              111,
+              143,
+              172,
+              181,
+              196,
+              214,
+              238,
+              269,
+              310,
+              348,
+              374,
+              395,
+              412,
+              425,
+              428,
+              449,
+              457,
+              457,
+              444,
+              426,
+              402,
+              373,
+              323,
+              275,
+              226,
+              172,
+              131
+            ],
+            "all_points_y":[  
+              82,
+              101,
+              125,
+              143,
+              155,
+              147,
+              151,
+              173,
+              205,
+              246,
+              281,
+              300,
+              316,
+              328,
+              348,
+              385,
+              410,
+              430,
+              445,
+              453,
+              457,
+              450,
+              439,
+              425,
+              409,
+              388,
+              371,
+              135,
+              111,
+              87,
+              67,
+              51,
+              37,
+              27,
+              19,
+              19,
+              27,
+              49,
+              83
+            ]
+          },
+          "region_attributes":{  
+
+          }
+        }
+      ],
+      "file_attributes":{  
+
+      }
+    },
+    "2.jpg172498":{  
+      "filename":"2.jpg",
+      "size":172498,
+      "regions":[  
+
+      ],
+      "file_attributes":{  
+
+      }
+    },
+    "3.jpg82372":{  
+      "filename":"3.jpg",
+      "size":82372,
+      "regions":[  
+
+      ],
+      "file_attributes":{  
+
+      }
+    },
+    "4.jpg39692":{  
+      "filename":"4.jpg",
+      "size":39692,
+      "regions":[  
+
+      ],
+      "file_attributes":{  
+
+      }
+    },
+    "5.jpg105798":{  
+      "filename":"5.jpg",
+      "size":105798,
+      "regions":[  
+
+      ],
+      "file_attributes":{  
+
+      }
+    },
+    "6.jpg79333":{  
+      "filename":"6.jpg",
+      "size":79333,
+      "regions":[  
+
+      ],
+      "file_attributes":{  
+
+      }
+    },
+    "7.jpg101359":{  
+      "filename":"7.jpg",
+      "size":101359,
+      "regions":[  
+
+      ],
+      "file_attributes":{  
+
+      }
+    },
+    "8.jpg55901":{  
+      "filename":"8.jpg",
+      "size":55901,
+      "regions":[  
+
+      ],
+      "file_attributes":{  
+
+      }
+    },
+    "9.jpg70618":{  
+      "filename":"9.jpg",
+      "size":70618,
+      "regions":[  
+
+      ],
+      "file_attributes":{  
+
+      }
+    },
+    "10.jpg136832":{  
+      "filename":"10.jpg",
+      "size":136832,
+      "regions":[  
+
+      ],
+      "file_attributes":{  
+
+      }
+    }
+  },
+  "_via_attributes":{  
+    "region":{  
+
+    },
+    "file":{  
+
+    }
+  }
+}
