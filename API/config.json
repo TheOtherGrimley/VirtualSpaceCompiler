@@ -1,0 +1,10 @@
+{
+    "api":{
+        "base uri":"/api"
+    },
+    "model directory":"C:\\Users\\AdamG\\OneDrive\\Documents\\Projects\\Uni\\FYP\\API\\logs",
+    "weights path" : "C:\\Users\\AdamG\\OneDrive\\Documents\\Projects\\Uni\\FYP\\API\\logs\\initial_cups\\mask_rcnn_cup_0017.h5",
+    "device":"/cpu:0",
+    "mode":"inference",
+    "cup directory":"C:\\Users\\AdamG\\OneDrive\\Documents\\Projects\\Uni\\FYP\\API\\cups"
+}
