@@ -1,5 +1,7 @@
 *.pem
 
+*/mask_rcnn_coco.h5
+
 keypointnet/
 RCNN\ Exploration/
 
