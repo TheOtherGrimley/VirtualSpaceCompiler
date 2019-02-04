@@ -1,3 +1,5 @@
 *.h5 filter=lfs diff=lfs merge=lfs -text
 API/mask_rcnn_coco.h5 filter=lfs diff=lfs merge=lfs -text
 API/logs/initial_cups/mask_rcnn_coco_0017.h5 filter=lfs diff=lfs merge=lfs -text
+API/Cups/models
+API/Keypoint/chkpt/
