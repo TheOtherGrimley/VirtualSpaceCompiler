@@ -1,6 +1,9 @@
 *.pem
 *.ppk
 
+*.mtl
+*.obj
+
 */__init__.py
 
 keypointnet/

@@ -7,5 +7,5 @@
     "device":"/cpu:0",
     "mode":"inference",
     "cup directory":"C:\\Users\\AdamG\\OneDrive\\Documents\\Projects\\Uni\\FYP\\API\\cups",
-    "kp model dir":"C:\\Users\\AdamG\\OneDrive\\Documents\\Projects\\Uni\\FYP\\API\\keypoint\\chkpt"
+    "kp model dir":"C:\\Users\\AdamG\\OneDrive\\Documents\\Projects\\Uni\\FYP\\API\\keypoint\\chkpt2"
 }
