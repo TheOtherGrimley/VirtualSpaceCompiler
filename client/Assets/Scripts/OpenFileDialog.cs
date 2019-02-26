@@ -1,13 +1,16 @@
 ﻿using System.Collections;
+using UnityEngine.Networking;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Text;
 
 public class OpenFileDialog : MonoBehaviour {
     public Transform buttonParent;
     public GameObject buttonPrefab;
     public Text selectedFileLabel;
+    public Text API_URL;
 
     SelectedFile activeFile;
     List<SelectedFile> foundFiles = new List<SelectedFile>();
@@ -57,6 +60,15 @@ public class OpenFileDialog : MonoBehaviour {
         {
             Debug.LogError("No file selected");
         }
+
+        else
+        {
+            byte[] bytes = File.ReadAllBytes(activeFile.filepath);
+            string img = System.Convert.ToBase64String(bytes);
+
+            Debug.Log("Submitting");
+            StartCoroutine(sendRequest(img));
+        }
     }
 
     void btnClick(SelectedFile arg)
@@ -66,11 +78,41 @@ public class OpenFileDialog : MonoBehaviour {
         selectedFileLabel.text = arg.filename.Replace(".jpg", "");
     }
 
+    IEnumerator sendRequest(string img)
+    {
+        reqData rawData = new reqData();
+        rawData.image = img;
+
+        string data = JsonUtility.ToJson(rawData);
+
+        UnityWebRequest req = UnityWebRequest.Put(API_URL.text, data);
+        req.SetRequestHeader("Content-Type", "application/json");
+
+        Debug.Log("Request sent");
+        yield return req.SendWebRequest();
+
+        if (req.isNetworkError || req.isHttpError)
+        {
+            Debug.Log(req.error);
+        }
+        else
+        {
+            Debug.Log("Upload complete!");
+            
+            Debug.Log(req.downloadHandler.text);
+        }
+    }
+
     struct SelectedFile
     {
         public GameObject button;
         public string filepath;
         public string filename;
     }
-    
+
+    struct reqData
+    {
+        public string image;
+    }
+
 }
