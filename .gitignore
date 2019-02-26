@@ -4,6 +4,12 @@
 *.mtl
 *.obj
 
+*.index
+*.data-00000-of-00001
+
+*.png
+*.jpg
+
 */__init__.py
 
 keypointnet/
