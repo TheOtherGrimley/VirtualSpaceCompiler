@@ -5,13 +5,16 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Text;
+using UnityEngine.SceneManagement;
 
 public class OpenFileDialog : MonoBehaviour {
     public Transform buttonParent;
     public GameObject buttonPrefab;
     public Text selectedFileLabel;
     public Text API_URL;
+    public GameObject loadingCube;
 
+    List<Button> _menuButtons = new List<Button>();
     SelectedFile activeFile;
     List<SelectedFile> foundFiles = new List<SelectedFile>();
     int movCount = 0;
@@ -19,9 +22,9 @@ public class OpenFileDialog : MonoBehaviour {
 
     private void Start()
     {
-        DontDestroyOnLoad(this);
-
         string sourceDirectory = @"C:\\Users\\AdamG\\Desktop";
+        foreach (GameObject g in GameObject.FindGameObjectsWithTag("Button"))
+            _menuButtons.Add(g.GetComponent<Button>());
 
         try
         {
@@ -61,8 +64,14 @@ public class OpenFileDialog : MonoBehaviour {
             Debug.LogError("No file selected");
         }
 
+        else if(API_URL.text == "")
+        {
+            Debug.LogError("No url entered");
+        }
+
         else
         {
+            ButtonInteractChange(false);
             byte[] bytes = File.ReadAllBytes(activeFile.filepath);
             string img = System.Convert.ToBase64String(bytes);
 
@@ -78,8 +87,15 @@ public class OpenFileDialog : MonoBehaviour {
         selectedFileLabel.text = arg.filename.Replace(".jpg", "");
     }
 
+    void ButtonInteractChange(bool canInteract)
+    {
+        foreach (Button b in _menuButtons)
+            b.interactable = canInteract;
+    }
+
     IEnumerator sendRequest(string img)
     {
+        loadingCube.SetActive(true);
         reqData rawData = new reqData();
         rawData.image = img;
 
@@ -93,13 +109,17 @@ public class OpenFileDialog : MonoBehaviour {
 
         if (req.isNetworkError || req.isHttpError)
         {
+            loadingCube.SetActive(false);
             Debug.Log(req.error);
+            ButtonInteractChange(true);
         }
         else
         {
+            loadingCube.SetActive(false);
+            ButtonInteractChange(true); //For debug, change in final
             Debug.Log("Upload complete!");
-            
-            Debug.Log(req.downloadHandler.text);
+            this.GetComponent<SceneData>().ParseData(req.downloadHandler.text);
+            SceneManager.LoadScene(1);
         }
     }
 
