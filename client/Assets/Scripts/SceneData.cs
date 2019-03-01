@@ -1,21 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using LitJson;
 using UnityEngine;
 
 public class SceneData : MonoBehaviour {
-    ParsedData data;
+    ParsedData _data;
+    public ParsedData data {
+        get { return _data; }
+        set { _data = value; }
+    }
 
     string _rawRequestData;
+        
+    public void ParseData(string json)
+    {
+        _rawRequestData = json;
+        _data = JsonUtility.FromJson<ParsedData>(cleanRequestData());
+    }
+
     
     private void Start()
     {
         DontDestroyOnLoad(this);
-    }
 
-    public void ParseData(string json)
-    {
-        _rawRequestData = json;
-        data = JsonUtility.FromJson<ParsedData>(cleanRequestData());
+        // --------------------------------------
+        // FOR DEBUG | DELETE IN FINAL
+        // --------------------------------------
+        
     }
 
     private string cleanRequestData()
