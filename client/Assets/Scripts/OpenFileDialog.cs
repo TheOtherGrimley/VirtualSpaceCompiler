@@ -118,7 +118,7 @@ public class OpenFileDialog : MonoBehaviour {
             loadingCube.SetActive(false);
             ButtonInteractChange(true); //For debug, change in final
             Debug.Log("Upload complete!");
-            this.GetComponent<SceneData>().ParseData(req.downloadHandler.text);
+            GameObject.FindGameObjectWithTag("Global").GetComponent<SceneData>().ParseData(req.downloadHandler.text);
             SceneManager.LoadScene(1);
         }
     }

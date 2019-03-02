@@ -28,6 +28,7 @@ public class SceneData : MonoBehaviour {
         // FOR DEBUG | DELETE IN FINAL
         // --------------------------------------
         
+
     }
 
     private string cleanRequestData()
@@ -41,4 +42,11 @@ public struct ParsedData
 {
     public float[] centre;
     public string filename;
+}
+
+struct objConfig
+{
+    public int objId;
+    public string objName;
+    public float rel_base;
 }
