@@ -75,15 +75,14 @@ public class OpenFileDialog : MonoBehaviour {
 
     public void submit()
     {
-        if(ActiveFile.filename == null)
-        {
+        if (ActiveFile.filename == null)
             Debug.LogError("No file selected");
-        }
 
-        else if(API_URL.text == "")
-        {
+        else if (_objectsToDetect.Count <= 0)
+            Debug.LogError("No objects selected");
+
+        else if (API_URL.text == "")
             Debug.LogError("No url entered");
-        }
 
         else
         {

@@ -19,7 +19,7 @@ public class SceneBuilder : MonoBehaviour {
         GameObject g = Instantiate(Resources.Load(configs[0].objName) as GameObject);
         g.transform.position = _cam.ScreenToWorldPoint(new Vector3((_sceneToBuild.centre[2] / 100) * _cam.pixelWidth, (_sceneToBuild.centre[3] / 100) * _cam.pixelHeight, _cam.nearClipPlane)) + (_cam.transform.forward * 1.1f);
         g.transform.rotation = Quaternion.Euler(new Vector3(35, 193, 8)); //hardcoded rotation of cup
-        GameObject floor = Instantiate(GameObject.CreatePrimitive(PrimitiveType.Plane), g.transform);
+        GameObject floor = Instantiate(Resources.Load("tables\\standard") as GameObject, g.transform);
         floor.transform.localPosition = new Vector3(0, configs[0].rel_base, 0);
         floor.transform.rotation = g.transform.rotation;
     }
