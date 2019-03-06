@@ -15,6 +15,7 @@ public class OpenFileDialog : MonoBehaviour {
     public GameObject loadingCube;
 
     private SelectedFile activeFile;
+    private List<string> _objectsToDetect = new List<string>();
     List<Button> _menuButtons = new List<Button>();
     List<SelectedFile> foundFiles = new List<SelectedFile>();
     int movCount = 0;
@@ -112,6 +113,7 @@ public class OpenFileDialog : MonoBehaviour {
     {
         loadingCube.SetActive(true);
         reqData rawData = new reqData();
+        rawData.objects = _objectsToDetect.ToArray();
         rawData.image = img;
 
         string data = JsonUtility.ToJson(rawData);
@@ -138,6 +140,14 @@ public class OpenFileDialog : MonoBehaviour {
         }
     }
 
+    public void ObjListChange(string obj, bool onoff)
+    {
+        if (onoff)
+            _objectsToDetect.Add(obj);
+        else
+            _objectsToDetect.Remove(obj);
+    }
+
     public struct SelectedFile
     {
         public GameObject button;
@@ -147,6 +157,7 @@ public class OpenFileDialog : MonoBehaviour {
 
     struct reqData
     {
+        public string[] objects;
         public string image;
     }
 
