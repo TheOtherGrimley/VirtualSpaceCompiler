@@ -14,17 +14,31 @@ public class OpenFileDialog : MonoBehaviour {
     public Text API_URL;
     public GameObject loadingCube;
 
+    private SelectedFile activeFile;
     List<Button> _menuButtons = new List<Button>();
-    SelectedFile activeFile;
     List<SelectedFile> foundFiles = new List<SelectedFile>();
     int movCount = 0;
     int xOffset=-200;
+
+    public SelectedFile ActiveFile
+    {
+        get
+        {
+            return activeFile;
+        }
+
+        set
+        {
+            activeFile = value;
+        }
+    }
 
     private void Start()
     {
         string sourceDirectory = @"C:\\Users\\AdamG\\Desktop";
         foreach (GameObject g in GameObject.FindGameObjectsWithTag("Button"))
             _menuButtons.Add(g.GetComponent<Button>());
+        ImageLoader imgldr = GameObject.FindGameObjectWithTag("MenuCtrl").GetComponent<ImageLoader>();
 
         try
         {
@@ -40,6 +54,7 @@ public class OpenFileDialog : MonoBehaviour {
                 temp.button.name = "btn" + temp.filename;
                 temp.button.GetComponent<RectTransform>().anchoredPosition = new Vector2(xOffset, 100 - 20 * movCount);
                 temp.button.GetComponent<Button>().onClick.AddListener(delegate { btnClick(temp); });
+                temp.button.GetComponent<Button>().onClick.AddListener(delegate { imgldr.LoadImageToUI(); });
                 foundFiles.Add(temp);
                 Debug.Log(temp.filename);
                 if(movCount == 10)
@@ -59,7 +74,7 @@ public class OpenFileDialog : MonoBehaviour {
 
     public void submit()
     {
-        if(activeFile.filename == null)
+        if(ActiveFile.filename == null)
         {
             Debug.LogError("No file selected");
         }
@@ -72,7 +87,7 @@ public class OpenFileDialog : MonoBehaviour {
         else
         {
             ButtonInteractChange(false);
-            byte[] bytes = File.ReadAllBytes(activeFile.filepath);
+            byte[] bytes = File.ReadAllBytes(ActiveFile.filepath);
             string img = System.Convert.ToBase64String(bytes);
 
             Debug.Log("Submitting");
@@ -83,7 +98,7 @@ public class OpenFileDialog : MonoBehaviour {
     void btnClick(SelectedFile arg)
     {
         arg.button.gameObject.transform.parent.gameObject.SetActive(false);
-        activeFile = arg;
+        ActiveFile = arg;
         selectedFileLabel.text = arg.filename.Replace(".jpg", "");
     }
 
@@ -123,7 +138,7 @@ public class OpenFileDialog : MonoBehaviour {
         }
     }
 
-    struct SelectedFile
+    public struct SelectedFile
     {
         public GameObject button;
         public string filepath;

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Global
   - Button
+  - MenuCtrl
   layers:
   - Default
   - TransparentFX
