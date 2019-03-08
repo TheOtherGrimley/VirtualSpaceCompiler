@@ -423,7 +423,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 601693179}
+      - m_Target: {fileID: 0}
         m_MethodName: submit
         m_Mode: 1
         m_Arguments:
@@ -621,7 +621,7 @@ RectTransform:
   - {fileID: 1058133663}
   - {fileID: 1202203233}
   m_Father: {fileID: 1231053127}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -711,8 +711,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 601693178}
-  - component: {fileID: 601693179}
   - component: {fileID: 601693180}
+  - component: {fileID: 601693179}
   m_Layer: 5
   m_Name: MenuController
   m_TagString: MenuCtrl
@@ -746,7 +746,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 601693177}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a97550658da63c41a1c6b3fa53babff, type: 3}
+  m_Script: {fileID: 11500000, guid: 420c687ea9841cf4e84e7a985d245263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   buttonParent: {fileID: 567292944}
@@ -754,7 +754,7 @@ MonoBehaviour:
     type: 2}
   selectedFileLabel: {fileID: 1888937185}
   API_URL: {fileID: 700241614}
-  loadingCube: {fileID: 1587998142}
+  loadingCube: {fileID: 1565974616}
 --- !u!114 &601693180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1688,8 +1688,8 @@ RectTransform:
   - {fileID: 466565475}
   - {fileID: 410036557}
   - {fileID: 642191583}
-  - {fileID: 567292944}
   - {fileID: 1901185856}
+  - {fileID: 567292944}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2361,7 +2361,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 51.999996, y: -0.000030517578}
+  m_AnchoredPosition: {x: 54, y: -0.000030517578}
   m_SizeDelta: {x: 0, y: 18}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1888937185
@@ -2445,11 +2445,11 @@ RectTransform:
   m_Children:
   - {fileID: 958927971}
   m_Father: {fileID: 1231053127}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 154.525, y: -23.22499}
+  m_AnchoredPosition: {x: 154.525, y: -23.224976}
   m_SizeDelta: {x: -282.25, y: -146.04999}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1901185857

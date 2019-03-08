@@ -4,13 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class ToggleInit : MonoBehaviour {
+	// Use this for initialization of toggle buttons
+    // Essentially links the toggle buttons to the menu as the application begins.
 
-	// Use this for initialization
 	void Start () {
         Toggle thisTog = this.gameObject.GetComponent<Toggle>();
-        OpenFileDialog diag = GameObject.FindGameObjectWithTag("MenuCtrl").GetComponent<OpenFileDialog>();
+        Menu diag = GameObject.FindGameObjectWithTag("MenuCtrl").GetComponent<Menu>();
 
         thisTog.onValueChanged.AddListener(delegate { diag.ObjListChange(this.GetComponentInChildren<Text>().text, thisTog.isOn); });
     }
-	
 }

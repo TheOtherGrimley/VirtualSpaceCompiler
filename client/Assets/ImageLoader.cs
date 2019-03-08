@@ -23,7 +23,7 @@ public class ImageLoader : MonoBehaviour {
         Texture2D tex = null;
         byte[] fileData;
 
-        fileData = File.ReadAllBytes(this.GetComponent<OpenFileDialog>().ActiveFile.filepath);
+        fileData = File.ReadAllBytes(this.GetComponent<Menu>().ActiveFile.filepath);
         tex = new Texture2D(2, 2);
         tex.LoadImage(fileData); //..this will auto-resize the texture dimensions.
 
