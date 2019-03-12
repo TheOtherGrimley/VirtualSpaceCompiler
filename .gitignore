@@ -1,7 +1,6 @@
 *.pem
 *.ppk
 
-keypointnet/
 RCNN\ Exploration/
 
 # Created by https://www.gitignore.io/api/python,jupyternotebook
