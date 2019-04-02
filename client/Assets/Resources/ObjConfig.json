@@ -5,5 +5,12 @@
 			"objName":"cups/45",
 			"rel_base":-0.25
 		}
+	],
+	"bowls": [
+		{
+			"objID":2,
+			"objName":"bowls/standard",
+			"rel_base":-0.25
+		}
 	]
 }

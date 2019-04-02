@@ -69,6 +69,11 @@ public class Menu : MonoBehaviour {
             b.interactable = canInteract;
     }
 
+    public void ReturnToMainMenu()
+    {
+        SceneManager.LoadScene(0);
+    }
+
     IEnumerator sendRequest(string img)
     {
         loadingCube.SetActive(true);

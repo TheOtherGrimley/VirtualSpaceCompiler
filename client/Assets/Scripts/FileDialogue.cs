@@ -17,7 +17,7 @@ public class FileDialogue : MonoBehaviour {
 
     // Counter variables used to format the custom file explorer
     int movCount = 0;
-    int xOffset = -200;
+    int xOffset = -350;
 
     
 
@@ -37,14 +37,14 @@ public class FileDialogue : MonoBehaviour {
         temp.filename = file.Split('\\')[file.Split('\\').Length - 1];
         temp.button.GetComponentInChildren<Text>().text = temp.filename;
         temp.button.name = "btn" + temp.filename;
-        temp.button.GetComponent<RectTransform>().anchoredPosition = new Vector2(xOffset, 100 - 20 * movCount);
+        temp.button.GetComponent<RectTransform>().anchoredPosition = new Vector2(xOffset, 180 - 30 * movCount);
         temp.button.GetComponent<Button>().onClick.AddListener(delegate { btnClick(temp); });
         temp.button.GetComponent<Button>().onClick.AddListener(delegate { imgldr.LoadImageToUI(); });
         foundFiles.Add(temp);
     }
     private void _initFileExplorer()
     {
-        string sourceDirectory = @"C:\\Users\\AdamG\\Desktop";
+        string sourceDirectory = @"C:\\Users\\AdamG\\Onedrive\\pictures\\fyp";
         try
         {
             string[] txtFiles = Directory.GetFiles(sourceDirectory, "*.jpg");

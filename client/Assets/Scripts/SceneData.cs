@@ -16,6 +16,8 @@ public class SceneData : MonoBehaviour {
     public void ParseData(string json)
     {
         _rawRequestData = json;
+        Debug.Log(json);
+        Debug.Log(cleanRequestData());
         _data = JsonUtility.FromJson<ParsedData>(cleanRequestData());
     }
 
@@ -33,15 +35,23 @@ public class SceneData : MonoBehaviour {
 
     private string cleanRequestData()
     {
-        return _rawRequestData.TrimStart('[', '"').Replace("\"]", "").Replace("\\", "");
+        return _rawRequestData.TrimStart('[', '"').Replace("\"]", "").Replace("\\", "").Replace("}\"", "}");
     }
 }
 
+
 [System.Serializable]
-public struct ParsedData
+public class ParsedData
+{
+    public CropData[] crops;
+}
+
+[System.Serializable]
+public struct CropData
 {
     public float[] centre;
     public string filename;
+    public string object_type;
 }
 
 struct objConfig
