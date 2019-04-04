@@ -13,6 +13,7 @@ public class SceneBuilder : MonoBehaviour {
     Camera _cam; 
     List<objConfig> configs = new List<objConfig>();
     bool _firstItem = true;
+    GameObject table;
 
     private void Awake()
     {
@@ -36,6 +37,8 @@ public class SceneBuilder : MonoBehaviour {
             }
         }
 
+        resetWorldOrientation();
+
         RaycastHit hit;
         if(Physics.Raycast(_cam.transform.position, _cam.transform.forward, out hit, 10)){
             _cam.GetComponent<Orbit>().centrePoint = hit.point;
@@ -49,9 +52,9 @@ public class SceneBuilder : MonoBehaviour {
         g.transform.rotation = Quaternion.Euler(new Vector3(35, 193, 8)); //hardcoded rotation of cup
         if (_firstItem)
         {
-            GameObject floor = Instantiate(Resources.Load("tables\\standard") as GameObject, g.transform);
-            floor.transform.localPosition = new Vector3(0, configs[0].rel_base, 0);
-            floor.transform.rotation = g.transform.rotation;
+            table = Instantiate(Resources.Load("tables\\standard") as GameObject, g.transform);
+            table.transform.localPosition = new Vector3(0, configs[0].rel_base, 0);
+            table.transform.rotation = g.transform.rotation;
             _firstItem = !_firstItem;
         }
     }
@@ -63,9 +66,9 @@ public class SceneBuilder : MonoBehaviour {
         g.transform.rotation = Quaternion.Euler(new Vector3(35, 193, 8)); //hardcoded rotation of cup
         if (_firstItem)
         {
-            GameObject floor = Instantiate(Resources.Load("tables\\standard") as GameObject, g.transform);
-            floor.transform.localPosition = new Vector3(0, configs[0].rel_base, 0);
-            floor.transform.rotation = g.transform.rotation;
+            table = Instantiate(Resources.Load("tables\\standard") as GameObject, g.transform);
+            table.transform.localPosition = new Vector3(0, configs[0].rel_base, 0);
+            table.transform.rotation = g.transform.rotation;
             _firstItem = !_firstItem;
         }
     }
@@ -88,7 +91,18 @@ public class SceneBuilder : MonoBehaviour {
                 temp.rel_base = float.Parse(s[j][i][2].ToString());
                 configs.Add(temp);
             }
-        
+    }
+
+    private void resetWorldOrientation()
+    {
+        foreach(GameObject g in GameObject.FindObjectsOfType<GameObject>())
+        {
+            if(g != table)
+            {
+                g.transform.parent = table.transform;
+            }
+        }
+        table.transform.up = Vector3.up;
     }
 
     private void loadSceneDataToBuild()
