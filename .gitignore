@@ -1,20 +1,16 @@
 *.pem
 *.ppk
 
-*.mtl
-*.obj
-
 *.index
 *.data-00000-of-00001
-
-*.png
-*.jpg
 
 */__init__.py
 
 keypointnet/
 RCNN\ Exploration/
-
+Docs/
+research\ papers/
+training\ data
 
 # Created by https://www.gitignore.io/api/unity
 # Edit at https://www.gitignore.io/?templates=unity

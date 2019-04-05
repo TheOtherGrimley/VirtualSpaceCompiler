@@ -15,9 +15,10 @@ public class SceneBuilder : MonoBehaviour {
     bool _firstItem = true;
     GameObject table;
 
-    private void Awake()
+    private void Start()
     {
         _cam = Camera.main.GetComponent<Camera>();
+        Debug.Log(_cam.gameObject.name);
         loadSceneDataToBuild();
         loadObjectConfig();
         
@@ -62,7 +63,7 @@ public class SceneBuilder : MonoBehaviour {
     private void loadCup(CropData c)
     {
         GameObject g = Instantiate(Resources.Load(configs[0].objName) as GameObject);
-        g.transform.position = _cam.ScreenToWorldPoint(new Vector3((c.centre[2] / 100) * _cam.pixelWidth, (c.centre[3] / 100) * _cam.pixelHeight, _cam.nearClipPlane)) + (_cam.transform.forward * 1.5f);
+        g.transform.position = _cam.ScreenToWorldPoint(new Vector3(((c.centre[3]) / 100) * _cam.pixelWidth, ((100-c.centre[2]) / 100) * _cam.pixelHeight, _cam.nearClipPlane)) + (_cam.transform.forward * 1f);
         g.transform.rotation = Quaternion.Euler(new Vector3(35, 193, 8)); //hardcoded rotation of cup
         if (_firstItem)
         {
@@ -97,7 +98,7 @@ public class SceneBuilder : MonoBehaviour {
     {
         foreach(GameObject g in GameObject.FindObjectsOfType<GameObject>())
         {
-            if(g != table)
+            if (g != table && (g.tag == "Untagged" || g.tag == "MainCamera"))
             {
                 g.transform.parent = table.transform;
             }
