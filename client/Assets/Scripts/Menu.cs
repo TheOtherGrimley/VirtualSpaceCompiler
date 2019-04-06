@@ -87,6 +87,7 @@ public class Menu : MonoBehaviour {
         req.SetRequestHeader("Content-Type", "application/json");
 
         Debug.Log("Request sent");
+        Metrics.Instance.TimerActiveSwitch();
         yield return req.SendWebRequest();
 
         if (req.isNetworkError || req.isHttpError)
@@ -94,6 +95,7 @@ public class Menu : MonoBehaviour {
             loadingCube.SetActive(false);
             Debug.Log(req.error);
             ButtonInteractChange(true);
+            Metrics.Instance.TimerActiveSwitch();
         }
         else
         {
@@ -101,6 +103,7 @@ public class Menu : MonoBehaviour {
             ButtonInteractChange(true); //For debug, change in final
             Debug.Log("Upload complete!");
             GameObject.FindGameObjectWithTag("Global").GetComponent<SceneData>().ParseData(req.downloadHandler.text);
+            Metrics.Instance.TimerActiveSwitch();
             SceneManager.LoadScene(1);
         }
     }

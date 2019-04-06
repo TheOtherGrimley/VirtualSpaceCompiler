@@ -6,9 +6,15 @@ using UnityEngine;
 
 public class SceneData : MonoBehaviour {
     ParsedData _data;
-    public ParsedData data {
+    public ParsedData Data {
         get { return _data; }
         set { _data = value; }
+    }
+    private string _style;
+    public string Style
+    {
+        get { return _style; }
+        set { _style = value; }
     }
 
     string _rawRequestData;
@@ -44,6 +50,7 @@ public class SceneData : MonoBehaviour {
 public class ParsedData
 {
     public CropData[] crops;
+    public Keypoints[] keypoints;
 }
 
 [System.Serializable]
@@ -52,6 +59,14 @@ public struct CropData
     public float[] centre;
     public string filename;
     public string object_type;
+}
+
+[System.Serializable]
+public struct Keypoints
+{
+    public float averageDepth;
+    public float[] orientRet;
+    public float[] points;
 }
 
 struct objConfig

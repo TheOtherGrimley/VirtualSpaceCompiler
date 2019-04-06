@@ -110,7 +110,7 @@ public class FileDialogue : MonoBehaviour {
 
     private void loadFiles()
     {
-        string[] txtFiles = Directory.GetFiles(sourceDirectory);
+        string[] txtFiles = Directory.GetFiles(sourceDirectory, "*.jpg");
 
         foreach (string currentFile in txtFiles)
         {
@@ -141,6 +141,8 @@ public class FileDialogue : MonoBehaviour {
     void btnClick(SelectedFile arg)
     {
         arg.button.gameObject.transform.parent.gameObject.SetActive(false);
+        var fileInfo = new System.IO.FileInfo(arg.filepath);
+        Metrics.Instance.ImageSize = (fileInfo.Length / 1e+6f); // Give size in mb
         _menuController.ActiveFile = arg;
         selectedFileLabel.text = arg.filename.Replace(".jpg", "");
     }

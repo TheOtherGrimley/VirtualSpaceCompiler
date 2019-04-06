@@ -3,14 +3,16 @@
 		{
 			"objID":1,
 			"objName":"cups/45",
-			"rel_base":-0.25
+			"rel_base":-0.25,
+			"style":"none"
 		}
 	],
 	"bowls": [
 		{
 			"objID":2,
 			"objName":"bowls/standard",
-			"rel_base":-0.25
+			"rel_base":-0.25,
+			"style":"none"
 		}
 	]
 }

@@ -88,8 +88,9 @@ public class SceneBuilder : MonoBehaviour {
                 objConfig temp = new objConfig();
                 temp.objId = (int)s[j][i][0];
                 temp.objName = (string)s[j][i][1];
-                // Jsondata has a bug where you can't direct cast to float. Too much effort to fix, use this instead:
+                // Jsondata has a bug where you can't direct cast to float. Too much effort to fix for this project plan, use this instead:
                 temp.rel_base = float.Parse(s[j][i][2].ToString());
+                temp.style = (string)s[j][i][3];
                 configs.Add(temp);
             }
     }
@@ -110,7 +111,7 @@ public class SceneBuilder : MonoBehaviour {
     {
         try
         {
-            _sceneToBuild = GameObject.FindGameObjectWithTag("Global").GetComponent<SceneData>().data;
+            _sceneToBuild = GameObject.FindGameObjectWithTag("Global").GetComponent<SceneData>().Data;
             if (_sceneToBuild.crops == null && !InDebug)
             {
                 Debug.LogError("No scene data found, loading main menu.");
@@ -131,5 +132,6 @@ public class SceneBuilder : MonoBehaviour {
         public int objId;
         public string objName;
         public float rel_base;
+        public string style;
     }
 }
