@@ -13,6 +13,7 @@ public class SceneBuilder : MonoBehaviour {
     public GameObject MetricsPanel;
 
     ParsedData _sceneToBuild;
+    int _style = 0;
     Camera _cam; 
     List<ObjConfig> configs = new List<ObjConfig>();
     bool _firstItem = true;
@@ -50,14 +51,18 @@ public class SceneBuilder : MonoBehaviour {
 
         if (Metrics.Instance.MetricsEnabled)
         {
-            MetricsPanel.SetActive(false);
+            MetricsPanel.SetActive(true);
             MetricsText.text = Metrics.Instance.FullResponse;
         }
     }
 
     private void loadBowl(CropData c)
     {
-        GameObject g = Instantiate(Resources.Load(configs[1].objName) as GameObject);
+        List<ObjConfig> bowls = new List<ObjConfig>();
+        for (int i = 0; i < configs.Count; i++)
+            if (configs[i].type == "bowl")
+                bowls.Add(configs[i]);
+        GameObject g = Instantiate(Resources.Load(bowls[UnityEngine.Random.Range(0, bowls.Count-1)].objName) as GameObject);
         g.transform.position = _cam.ScreenToWorldPoint(new Vector3(((100-c.centre[3]) / 100) * _cam.pixelWidth, ((100-c.centre[2]) / 100) * _cam.pixelHeight, 2f));
         g.transform.rotation = Quaternion.Euler(new Vector3(35, 193, 8)); //hardcoded rotation of cup
         if (_firstItem)
@@ -73,7 +78,9 @@ public class SceneBuilder : MonoBehaviour {
     {
         GameObject g = Instantiate(Resources.Load(configs[0].objName) as GameObject);
         g.transform.position = _cam.ScreenToWorldPoint(new Vector3(((c.centre[3]) / 100) * _cam.pixelWidth, ((100-c.centre[2]) / 100) * _cam.pixelHeight, 1.5f));
-        g.transform.rotation = Quaternion.Euler(new Vector3(35, 193, 8)); //hardcoded rotation of cup
+        g.transform.rotation = Quaternion.Euler(new Vector3(7, 55, 23)); //hardcoded rotation of cup
+
+
         if (_firstItem)
         {
             table = Instantiate(Resources.Load("tables\\standard") as GameObject, g.transform);
@@ -92,16 +99,25 @@ public class SceneBuilder : MonoBehaviour {
         Debug.Log(s);
 
         for(int j = 0; j < s.Count; j++)
-            for (int i = 0; i < s[0].Count; i++)
-            {
-                ObjConfig temp = new ObjConfig();
-                temp.objId = (int)s[j][i][0];
-                temp.objName = (string)s[j][i][1];
-                // Jsondata has a bug where you can't direct cast to float. Too much effort to fix for this project plan, use this instead:
-                temp.rel_base = float.Parse(s[j][i][2].ToString());
-                temp.style = (string)s[j][i][3];
-                configs.Add(temp);
-            }
+            for (int i = 0; i < s[j].Count; i++)
+                if((int)s[j][i][3] == _style)
+                {
+                    ObjConfig temp = new ObjConfig();
+                    temp.objId = (int)s[j][i][0];
+                    temp.objName = (string)s[j][i][1];
+                    // Jsondata has a bug where you can't direct cast to float. Too much effort to fix for this project plan, use this instead:
+                    temp.rel_base = float.Parse(s[j][i][2].ToString());
+                    switch (j)
+                    {
+                        case 0:
+                            temp.type = "cup";
+                            break;
+                        case 1:
+                            temp.type = "bowl";
+                            break;
+                    }
+                    configs.Add(temp);
+                }
     }
 
     private void resetWorldOrientation()
@@ -121,6 +137,7 @@ public class SceneBuilder : MonoBehaviour {
         try
         {
             _sceneToBuild = GameObject.FindGameObjectWithTag("Global").GetComponent<SceneData>().Data;
+            _style = GameObject.FindGameObjectWithTag("Global").GetComponent<SceneData>().Style;
             if (_sceneToBuild.crops == null && !InDebug)
             {
                 Debug.LogError("No scene data found, loading main menu.");
@@ -178,6 +195,7 @@ public class SceneBuilder : MonoBehaviour {
         public int objId;
         public string objName;
         public float rel_base;
-        public string style;
+        public int style;
+        public string type;
     }
 }

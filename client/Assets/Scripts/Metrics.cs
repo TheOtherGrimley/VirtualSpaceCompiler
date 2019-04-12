@@ -36,7 +36,7 @@ public class Metrics : MonoBehaviour {
 
         set
         {
-            _fullResponse = JsonUtility.ToJson(value, true);
+            _fullResponse = value;
         }
     }
     public bool MetricsEnabled

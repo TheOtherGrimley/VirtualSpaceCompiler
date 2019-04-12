@@ -10,8 +10,8 @@ public class SceneData : MonoBehaviour {
         get { return _data; }
         set { _data = value; }
     }
-    private string _style;
-    public string Style
+    private int _style;
+    public int Style
     {
         get { return _style; }
         set { _style = value; }
@@ -23,7 +23,7 @@ public class SceneData : MonoBehaviour {
     {
         _rawRequestData = json;
         if (Metrics.Instance.MetricsEnabled)
-            Metrics.Instance.FullResponse = cleanRequestData();
+            Metrics.Instance.FullResponse = _rawRequestData;
         _data = JsonUtility.FromJson<ParsedData>(cleanRequestData());
 
     }

@@ -8,6 +8,7 @@ public class FileDialogue : MonoBehaviour {
     public GameObject filePrefab;
     public GameObject directoryPrefab;
     public GameObject parentDirectoryPrefab;
+    public Text CurrentDirectory;
     public Text selectedFileLabel;
     public Text API_URL;
     public GameObject loadingCube;
@@ -44,7 +45,6 @@ public class FileDialogue : MonoBehaviour {
         else
             temp.button.GetComponentInChildren<Text>().text = temp.filename;
         temp.button.name = "btn" + temp.filename;
-        temp.button.GetComponent<RectTransform>().anchoredPosition = new Vector2(xOffset, 180 - 35 * movCount);
         temp.button.GetComponent<Button>().onClick.AddListener(delegate { btnClick(temp); });
         temp.button.GetComponent<Button>().onClick.AddListener(delegate { imgldr.LoadImageToUI(); });
         foundFiles.Add(temp);
@@ -59,14 +59,12 @@ public class FileDialogue : MonoBehaviour {
         else
             g.GetComponentInChildren<Text>().text = folderName;
         g.name = "btn" + folderName;
-        g.GetComponent<RectTransform>().anchoredPosition = new Vector2(xOffset, 180 - 35 * movCount);
         g.GetComponent<Button>().onClick.AddListener(delegate { _goTo(folderName); });
     }
 
     private void _initParentDirectoryButton()
     {
         GameObject g = Instantiate(parentDirectoryPrefab, buttonParent);
-        g.GetComponent<RectTransform>().anchoredPosition = new Vector2(xOffset, 180);
         g.GetComponent<Button>().onClick.AddListener(delegate { _goUp(); });
         movCount += 1; // Will always be the first loaded
     }
@@ -85,7 +83,7 @@ public class FileDialogue : MonoBehaviour {
 
     private void _resetVars()
     {
-        for(int i = buttonParent.childCount - 1; i > 0; i--)
+        for(int i = buttonParent.childCount-1; i > -1; i--)
             if (buttonParent.GetChild(i).gameObject.tag == "UI")
                 Destroy(buttonParent.GetChild(i).gameObject);
         foundFiles.Clear();
@@ -128,6 +126,7 @@ public class FileDialogue : MonoBehaviour {
     {
         try
         {
+            CurrentDirectory.text = sourceDirectory;
             _resetVars();
             _initParentDirectoryButton();
             loadDirectories();
@@ -141,7 +140,7 @@ public class FileDialogue : MonoBehaviour {
 
     void btnClick(SelectedFile arg)
     {
-        arg.button.gameObject.transform.parent.gameObject.SetActive(false);
+        arg.button.gameObject.transform.parent.parent.parent.parent.gameObject.SetActive(false);
         var fileInfo = new System.IO.FileInfo(arg.filepath);
         Metrics.Instance.ImageSize = (fileInfo.Length / 1e+6f); // Give size in mb
         _menuController.ActiveFile = arg;
