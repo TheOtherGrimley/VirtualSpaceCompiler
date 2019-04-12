@@ -5,13 +5,16 @@ using System.IO;
 using LitJson;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SceneBuilder : MonoBehaviour {
     public bool InDebug = false;
+    public Text MetricsText;
+    public GameObject MetricsPanel;
 
     ParsedData _sceneToBuild;
     Camera _cam; 
-    List<objConfig> configs = new List<objConfig>();
+    List<ObjConfig> configs = new List<ObjConfig>();
     bool _firstItem = true;
     GameObject table;
 
@@ -44,6 +47,12 @@ public class SceneBuilder : MonoBehaviour {
         if(Physics.Raycast(_cam.transform.position, _cam.transform.forward, out hit, 10)){
             _cam.GetComponent<Orbit>().centrePoint = hit.point;
         }
+
+        if (Metrics.Instance.MetricsEnabled)
+        {
+            MetricsPanel.SetActive(false);
+            MetricsText.text = Metrics.Instance.FullResponse;
+        }
     }
 
     private void loadBowl(CropData c)
@@ -63,7 +72,7 @@ public class SceneBuilder : MonoBehaviour {
     private void loadCup(CropData c)
     {
         GameObject g = Instantiate(Resources.Load(configs[0].objName) as GameObject);
-        g.transform.position = _cam.ScreenToWorldPoint(new Vector3(((c.centre[3]) / 100) * _cam.pixelWidth, ((100-c.centre[2]) / 100) * _cam.pixelHeight, _cam.nearClipPlane)) + (_cam.transform.forward * 1f);
+        g.transform.position = _cam.ScreenToWorldPoint(new Vector3(((c.centre[3]) / 100) * _cam.pixelWidth, ((100-c.centre[2]) / 100) * _cam.pixelHeight, 1.5f));
         g.transform.rotation = Quaternion.Euler(new Vector3(35, 193, 8)); //hardcoded rotation of cup
         if (_firstItem)
         {
@@ -85,7 +94,7 @@ public class SceneBuilder : MonoBehaviour {
         for(int j = 0; j < s.Count; j++)
             for (int i = 0; i < s[0].Count; i++)
             {
-                objConfig temp = new objConfig();
+                ObjConfig temp = new ObjConfig();
                 temp.objId = (int)s[j][i][0];
                 temp.objName = (string)s[j][i][1];
                 // Jsondata has a bug where you can't direct cast to float. Too much effort to fix for this project plan, use this instead:
@@ -127,7 +136,44 @@ public class SceneBuilder : MonoBehaviour {
         }
     }
 
-    struct objConfig
+    public void SaveScene()
+    {
+        ObjectsToSave objects = new ObjectsToSave();
+        objects.ObjectList = new List<SaveObject>();
+
+        foreach (GameObject g in FindObjectsOfType<GameObject>())
+        {
+            SaveObject temp = new SaveObject();
+            temp.name = g.name;
+            temp.position = g.transform.position;
+            temp.Rotation = g.transform.rotation.eulerAngles;
+            objects.ObjectList.Add(temp);
+        }
+
+        if (Metrics.Instance.MetricsDirectory == null)
+        {
+            if (!Directory.Exists(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "//VSCLogs"))
+                Directory.CreateDirectory(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "//VSCLogs");
+            Metrics.Instance.MetricsDirectory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "//VSCLogs";
+        }
+        File.WriteAllText(Metrics.Instance.MetricsDirectory + "\\scene-" + DateTime.Now.ToFileTime()+".json", JsonUtility.ToJson(objects, true));
+    }
+
+    [System.Serializable]
+    struct SaveObject
+    {
+        public string name;
+        public Vector3 position;
+        public Vector3 Rotation;
+    }
+
+    [System.Serializable]
+    struct ObjectsToSave
+    {
+        public List<SaveObject> ObjectList;
+    }
+
+    struct ObjConfig
     {
         public int objId;
         public string objName;

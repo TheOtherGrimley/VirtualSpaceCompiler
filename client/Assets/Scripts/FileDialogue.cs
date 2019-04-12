@@ -138,6 +138,7 @@ public class FileDialogue : MonoBehaviour {
             Debug.Log(e.Message);
         }
     }
+
     void btnClick(SelectedFile arg)
     {
         arg.button.gameObject.transform.parent.gameObject.SetActive(false);

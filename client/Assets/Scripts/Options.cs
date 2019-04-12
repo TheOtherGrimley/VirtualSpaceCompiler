@@ -5,14 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Options : MonoBehaviour {
-    private bool _metricsEnabled = false;
-    public bool MetricsEnabled
-    {
-        set
-        {
-            _metricsEnabled = value;
-        }
-    }
+    
     public Text timerText;
     public Text imageSize;
     public GameObject metricsDirectory;
@@ -23,17 +16,22 @@ public class Options : MonoBehaviour {
     }
 
     void Update () {
-        if (_metricsEnabled)
+        if (Metrics.Instance.MetricsEnabled)
         {
             timerText.text = Metrics.Instance.reqTime.ToString("F1") + "s";
             imageSize.text = Metrics.Instance.ImageSize.ToString("F2") + "Mb";
         }
 	}
 
+    public void SetMetrics(bool show)
+    {
+        Metrics.Instance.MetricsEnabled = show;
+    }
+
     void checkDirectory(string dir)
     {
         if (Directory.Exists(dir))
-            Metrics.Instance.metricsDirectory = dir;
+            Metrics.Instance.MetricsDirectory = dir;
         else
             metricsDirectory.GetComponent<InputField>().text = "Directory does not exist";
     }

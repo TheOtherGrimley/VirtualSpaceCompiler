@@ -172,7 +172,3 @@ if __name__ == '__main__':
     ### ADD IN COLOR SPLASH HERE I GUESS AT SOME POINT
     else:
         print('{} not recognised. Use "train"'.format(args.command))
-            
-
-
-        

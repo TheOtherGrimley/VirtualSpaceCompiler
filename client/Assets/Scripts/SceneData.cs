@@ -22,21 +22,15 @@ public class SceneData : MonoBehaviour {
     public void ParseData(string json)
     {
         _rawRequestData = json;
-        Debug.Log(json);
-        Debug.Log(cleanRequestData());
+        if (Metrics.Instance.MetricsEnabled)
+            Metrics.Instance.FullResponse = cleanRequestData();
         _data = JsonUtility.FromJson<ParsedData>(cleanRequestData());
+
     }
 
-    
     private void Start()
     {
         DontDestroyOnLoad(this);
-
-        // --------------------------------------
-        // FOR DEBUG | DELETE IN FINAL
-        // --------------------------------------
-        
-
     }
 
     private string cleanRequestData()
