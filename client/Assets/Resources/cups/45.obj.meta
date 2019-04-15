@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f11fe626539edd7459cfedb2d6c40caa
+guid: dcdda377c7c70d74dbe115f8e69d7e4e
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
@@ -11,6 +11,7 @@ ModelImporter:
     2300000: default
     3300000: default
     4300000: default
+    6400000: default
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -44,7 +45,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1

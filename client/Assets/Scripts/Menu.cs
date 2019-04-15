@@ -7,12 +7,11 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Menu : MonoBehaviour {
-    public GameObject loadingCube;
-    public Text API_URL;
+    public GameObject LoadingCube;
+    public Text ApiUrl;
     private SelectedFile _activeFile; // Current file actively selected property.
     private List<Button> _menuButtons = new List<Button>();
     private List<string> _objectsToDetect = new List<string>();
-
 
     public SelectedFile ActiveFile
     {
@@ -27,21 +26,13 @@ public class Menu : MonoBehaviour {
         }
     }
 
-    public void ObjListChange(string obj, bool onoff)
-    {
-        if (onoff)
-            _objectsToDetect.Add(obj);
-        else
-            _objectsToDetect.Remove(obj);
-    }
-
     private void Start()
     {
         foreach (GameObject g in GameObject.FindGameObjectsWithTag("Button"))
             _menuButtons.Add(g.GetComponent<Button>());
     }
 
-    public void submit()
+    public void Submit()
     {
         if (ActiveFile.filename == null)
             Debug.LogError("No file selected");
@@ -49,7 +40,7 @@ public class Menu : MonoBehaviour {
         else if (_objectsToDetect.Count <= 0)
             Debug.LogError("No objects selected");
 
-        else if (API_URL.text == "")
+        else if (ApiUrl.text == "")
             Debug.LogError("No url entered");
 
         else
@@ -59,7 +50,7 @@ public class Menu : MonoBehaviour {
             string img = System.Convert.ToBase64String(bytes);
 
             Debug.Log("Submitting");
-            StartCoroutine(sendRequest(img));
+            StartCoroutine(SendRequest(img));
         }
     }
 
@@ -69,33 +60,49 @@ public class Menu : MonoBehaviour {
             b.interactable = canInteract;
     }
 
-    IEnumerator sendRequest(string img)
+    public void ReturnToMainMenu()
     {
-        loadingCube.SetActive(true);
+        SceneManager.LoadScene(0);
+    }
+
+    public void ObjListChange(string obj, bool onoff)
+    {
+        if (onoff)
+            _objectsToDetect.Add(obj);
+        else
+            _objectsToDetect.Remove(obj);
+    }
+
+    IEnumerator SendRequest(string img)
+    {
+        LoadingCube.SetActive(true);
         reqData rawData = new reqData();
         rawData.objects = _objectsToDetect.ToArray();
         rawData.image = img;
 
         string data = JsonUtility.ToJson(rawData);
 
-        UnityWebRequest req = UnityWebRequest.Put(API_URL.text, data);
+        UnityWebRequest req = UnityWebRequest.Put(ApiUrl.text, data);
         req.SetRequestHeader("Content-Type", "application/json");
 
         Debug.Log("Request sent");
+        Metrics.Instance.TimerActiveSwitch();
         yield return req.SendWebRequest();
 
         if (req.isNetworkError || req.isHttpError)
         {
-            loadingCube.SetActive(false);
+            LoadingCube.SetActive(false);
             Debug.Log(req.error);
             ButtonInteractChange(true);
+            Metrics.Instance.TimerActiveSwitch();
         }
         else
         {
-            loadingCube.SetActive(false);
+            LoadingCube.SetActive(false);
             ButtonInteractChange(true); //For debug, change in final
             Debug.Log("Upload complete!");
             GameObject.FindGameObjectWithTag("Global").GetComponent<SceneData>().ParseData(req.downloadHandler.text);
+            Metrics.Instance.TimerActiveSwitch();
             SceneManager.LoadScene(1);
         }
     }

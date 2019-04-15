@@ -2,9 +2,19 @@
     "api":{
         "base uri":"/api"
     },
-    "model directory":"C:\\Users\\AdamG\\OneDrive\\Documents\\Projects\\Uni\\FYP\\API\\logs",
-    "weights path" : "C:\\Users\\AdamG\\OneDrive\\Documents\\Projects\\Uni\\FYP\\API\\logs\\initial_cups\\mask_rcnn_cup_0017.h5",
+    "cup":{
+        "model directory":"C:\\Users\\AdamG\\OneDrive\\Documents\\Projects\\Uni\\FYP\\API\\logs",
+        "weights path":"C:\\Users\\AdamG\\OneDrive\\Documents\\Projects\\Uni\\FYP\\API\\logs\\initial_cups\\mask_rcnn_cup_0017.h5"
+    },
+    "bowl":{
+        "model directory":"C:\\Users\\AdamG\\OneDrive\\Documents\\Projects\\Uni\\FYP\\API\\logs",
+        "weights path":"C:\\Users\\AdamG\\OneDrive\\Documents\\Projects\\Uni\\FYP\\API\\logs\\bowls\\mask_rcnn_bowl_0021.h5"
+    },
+    "keypoint":{
+        "input":"C:\\Users\\AdamG\\OneDrive\\Documents\\Projects\\Uni\\FYP\\API\\cups\\val",
+        "checkpoint":"C:\\Users\\AdamG\\OneDrive\\Documents\\Projects\\Uni\\FYP\\API\\keypoint\\chkpt2\\"
+    },
     "device":"/cpu:0",
     "mode":"inference",
-    "cup directory":"C:\\Users\\AdamG\\OneDrive\\Documents\\Projects\\Uni\\FYP\\API\\cups"
+    "cup directory":"C:\\Users\\AdamG\\OneDrive\\Documents\\Projects\\Uni\\FYP\\training_data\\bowls"
 }

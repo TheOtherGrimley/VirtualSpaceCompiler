@@ -3,7 +3,28 @@
 		{
 			"objID":1,
 			"objName":"cups/45",
-			"rel_base":-0.25
+			"rel_base":-0.25,
+			"style":0
+		},
+		{
+			"objID":3,
+			"objName":"cups/tankard",
+			"rel_base":-0.3,
+			"style":1
+		}
+	],
+	"bowls": [
+		{
+			"objID":2,
+			"objName":"bowls/standard",
+			"rel_base":-0.25,
+			"style":0
+		},
+		{
+			"objID":4,
+			"objName":"bowls/fantasy",
+			"rel_base":-0.25,
+			"style":1
 		}
 	]
 }

@@ -6,9 +6,15 @@ using UnityEngine;
 
 public class SceneData : MonoBehaviour {
     ParsedData _data;
-    public ParsedData data {
+    public ParsedData Data {
         get { return _data; }
         set { _data = value; }
+    }
+    private int _style;
+    public int Style
+    {
+        get { return _style; }
+        set { _style = value; }
     }
 
     string _rawRequestData;
@@ -16,32 +22,45 @@ public class SceneData : MonoBehaviour {
     public void ParseData(string json)
     {
         _rawRequestData = json;
+        if (Metrics.Instance.MetricsEnabled)
+            Metrics.Instance.FullResponse = _rawRequestData;
         _data = JsonUtility.FromJson<ParsedData>(cleanRequestData());
+
     }
 
-    
     private void Start()
     {
         DontDestroyOnLoad(this);
-
-        // --------------------------------------
-        // FOR DEBUG | DELETE IN FINAL
-        // --------------------------------------
-        
-
     }
 
     private string cleanRequestData()
     {
-        return _rawRequestData.TrimStart('[', '"').Replace("\"]", "").Replace("\\", "");
+        return _rawRequestData.TrimStart('[', '"').Replace("\"]", "").Replace("\\", "").Replace("}\"", "}");
     }
 }
 
+
 [System.Serializable]
-public struct ParsedData
+public class ParsedData
+{
+    public CropData[] crops;
+    public Keypoints[] keypoints;
+}
+
+[System.Serializable]
+public struct CropData
 {
     public float[] centre;
     public string filename;
+    public string object_type;
+}
+
+[System.Serializable]
+public struct Keypoints
+{
+    public float averageDepth;
+    public float[] orientRet;
+    public float[] points;
 }
 
 struct objConfig

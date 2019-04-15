@@ -5,19 +5,24 @@ using UnityEngine.UI;
 
 public class FileDialogue : MonoBehaviour {
     public Transform buttonParent;
-    public GameObject buttonPrefab;
+    public GameObject filePrefab;
+    public GameObject directoryPrefab;
+    public GameObject parentDirectoryPrefab;
+    public Text CurrentDirectory;
     public Text selectedFileLabel;
     public Text API_URL;
     public GameObject loadingCube;
+    public int maxStringLength = 15;
+    public int xOffsetDifference = 150;
 
-    
+    private string sourceDirectory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop);
     private ImageLoader imgldr; // Used to refer to the image loader in the menu scripts
     private Menu _menuController;
     List<SelectedFile> foundFiles = new List<SelectedFile>();
 
     // Counter variables used to format the custom file explorer
-    int movCount = 0;
-    int xOffset = -200;
+    int movCount;
+    int xOffset;
 
     
 
@@ -32,42 +37,112 @@ public class FileDialogue : MonoBehaviour {
     private void _initFileButton(string file)
     {
         SelectedFile temp = new SelectedFile();
-        temp.button = Instantiate(buttonPrefab, buttonParent);
+        temp.button = Instantiate(filePrefab, buttonParent);
         temp.filepath = file;
         temp.filename = file.Split('\\')[file.Split('\\').Length - 1];
-        temp.button.GetComponentInChildren<Text>().text = temp.filename;
+        if(temp.filename.Length > 20)
+            temp.button.GetComponentInChildren<Text>().text = temp.filename.Substring(0, maxStringLength);
+        else
+            temp.button.GetComponentInChildren<Text>().text = temp.filename;
         temp.button.name = "btn" + temp.filename;
-        temp.button.GetComponent<RectTransform>().anchoredPosition = new Vector2(xOffset, 100 - 20 * movCount);
         temp.button.GetComponent<Button>().onClick.AddListener(delegate { btnClick(temp); });
         temp.button.GetComponent<Button>().onClick.AddListener(delegate { imgldr.LoadImageToUI(); });
         foundFiles.Add(temp);
     }
+
+    private void _initDirButton(string file)
+    {
+        GameObject g = Instantiate(directoryPrefab, buttonParent);
+        string folderName = file.Split('\\')[file.Split('\\').Length - 1];
+        if (folderName.Length > 20)
+            g.GetComponentInChildren<Text>().text = folderName.Substring(0, maxStringLength);
+        else
+            g.GetComponentInChildren<Text>().text = folderName;
+        g.name = "btn" + folderName;
+        g.GetComponent<Button>().onClick.AddListener(delegate { _goTo(folderName); });
+    }
+
+    private void _initParentDirectoryButton()
+    {
+        GameObject g = Instantiate(parentDirectoryPrefab, buttonParent);
+        g.GetComponent<Button>().onClick.AddListener(delegate { _goUp(); });
+        movCount += 1; // Will always be the first loaded
+    }
+
+    private void _goTo(string folder)
+    {
+        sourceDirectory += "\\" + folder;
+        _initFileExplorer();
+    }
+
+    private void _goUp()
+    {
+        sourceDirectory = Directory.GetParent(sourceDirectory).FullName;
+        _initFileExplorer();
+    }
+
+    private void _resetVars()
+    {
+        for(int i = buttonParent.childCount-1; i > -1; i--)
+            if (buttonParent.GetChild(i).gameObject.tag == "UI")
+                Destroy(buttonParent.GetChild(i).gameObject);
+        foundFiles.Clear();
+        movCount = 0;
+        xOffset = -350;
+    }
+
+    private void loadDirectories()
+    {
+        string[] directories = Directory.GetDirectories(sourceDirectory);
+        foreach (string currentDir in directories)
+        {
+            _initDirButton(currentDir);
+            if (movCount == 10)
+            {
+                movCount = 0;
+                xOffset += xOffsetDifference;
+            }
+            movCount += 1;
+        }
+    }
+
+    private void loadFiles()
+    {
+        string[] txtFiles = Directory.GetFiles(sourceDirectory, "*.jpg");
+
+        foreach (string currentFile in txtFiles)
+        {
+            _initFileButton(currentFile);
+            if (movCount == 10)
+            {
+                movCount = 0;
+                xOffset += xOffsetDifference;
+            }
+            movCount += 1;
+        }
+    }
+
     private void _initFileExplorer()
     {
-        string sourceDirectory = @"C:\\Users\\AdamG\\Desktop";
         try
         {
-            string[] txtFiles = Directory.GetFiles(sourceDirectory, "*.jpg");
-
-            foreach (string currentFile in txtFiles)
-            {
-                _initFileButton(currentFile);
-                if (movCount == 10)
-                {
-                    movCount = 0;
-                    xOffset += 50;
-                }
-                movCount += 1;
-            }
+            CurrentDirectory.text = sourceDirectory;
+            _resetVars();
+            _initParentDirectoryButton();
+            loadDirectories();
+            loadFiles();
         }
         catch (System.Exception e)
         {
             Debug.Log(e.Message);
         }
     }
+
     void btnClick(SelectedFile arg)
     {
-        arg.button.gameObject.transform.parent.gameObject.SetActive(false);
+        arg.button.gameObject.transform.parent.parent.parent.parent.gameObject.SetActive(false);
+        var fileInfo = new System.IO.FileInfo(arg.filepath);
+        Metrics.Instance.ImageSize = (fileInfo.Length / 1e+6f); // Give size in mb
         _menuController.ActiveFile = arg;
         selectedFileLabel.text = arg.filename.Replace(".jpg", "");
     }
