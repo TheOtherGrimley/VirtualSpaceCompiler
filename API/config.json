@@ -8,7 +8,7 @@
     },
     "bowl":{
         "model directory":"C:\\Users\\AdamG\\OneDrive\\Documents\\Projects\\Uni\\FYP\\API\\logs",
-        "weights path":"C:\\Users\\AdamG\\OneDrive\\Documents\\Projects\\Uni\\FYP\\API\\logs\\bowls\\mask_rcnn_bowl_0016.h5"
+        "weights path":"C:\\Users\\AdamG\\OneDrive\\Documents\\Projects\\Uni\\FYP\\API\\logs\\bowls\\mask_rcnn_bowl_0021.h5"
     },
     "keypoint":{
         "input":"C:\\Users\\AdamG\\OneDrive\\Documents\\Projects\\Uni\\FYP\\API\\cups\\val",
@@ -16,5 +16,5 @@
     },
     "device":"/cpu:0",
     "mode":"inference",
-    "cup directory":"C:\\Users\\AdamG\\OneDrive\\Documents\\Projects\\Uni\\FYP\\API\\cups"
+    "cup directory":"C:\\Users\\AdamG\\OneDrive\\Documents\\Projects\\Uni\\FYP\\training_data\\bowls"
 }

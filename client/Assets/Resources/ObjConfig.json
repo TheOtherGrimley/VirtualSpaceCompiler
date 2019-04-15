@@ -19,6 +19,12 @@
 			"objName":"bowls/standard",
 			"rel_base":-0.25,
 			"style":0
+		},
+		{
+			"objID":4,
+			"objName":"bowls/fantasy",
+			"rel_base":-0.25,
+			"style":1
 		}
 	]
 }

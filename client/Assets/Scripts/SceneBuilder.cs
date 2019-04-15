@@ -23,18 +23,18 @@ public class SceneBuilder : MonoBehaviour {
     {
         _cam = Camera.main.GetComponent<Camera>();
         Debug.Log(_cam.gameObject.name);
-        loadSceneDataToBuild();
-        loadObjectConfig();
+        _loadSceneDataToBuild();
+        _loadObjectConfig();
         
         foreach(CropData crop in _sceneToBuild.crops)
         {
             switch (crop.object_type)
             {
                 case "cup":
-                    loadCup(crop);
+                    _loadCup(crop);
                     break;
                 case "bowl":
-                    loadBowl(crop);
+                    _loadBowl(crop);
                     break;
                 default:
                     Debug.LogError("Object type invalid");
@@ -42,7 +42,7 @@ public class SceneBuilder : MonoBehaviour {
             }
         }
 
-        resetWorldOrientation();
+        _resetWorldOrientation();
 
         RaycastHit hit;
         if(Physics.Raycast(_cam.transform.position, _cam.transform.forward, out hit, 10)){
@@ -54,43 +54,57 @@ public class SceneBuilder : MonoBehaviour {
             MetricsPanel.SetActive(true);
             MetricsText.text = Metrics.Instance.FullResponse;
         }
+        else
+            MetricsPanel.SetActive(true);
     }
 
-    private void loadBowl(CropData c)
+    private void _loadBowl(CropData c)
     {
         List<ObjConfig> bowls = new List<ObjConfig>();
         for (int i = 0; i < configs.Count; i++)
             if (configs[i].type == "bowl")
                 bowls.Add(configs[i]);
-        GameObject g = Instantiate(Resources.Load(bowls[UnityEngine.Random.Range(0, bowls.Count-1)].objName) as GameObject);
-        g.transform.position = _cam.ScreenToWorldPoint(new Vector3(((100-c.centre[3]) / 100) * _cam.pixelWidth, ((100-c.centre[2]) / 100) * _cam.pixelHeight, 2f));
-        g.transform.rotation = Quaternion.Euler(new Vector3(35, 193, 8)); //hardcoded rotation of cup
-        if (_firstItem)
-        {
-            table = Instantiate(Resources.Load("tables\\standard") as GameObject, g.transform);
-            table.transform.localPosition = new Vector3(0, configs[0].rel_base, 0);
-            table.transform.rotation = g.transform.rotation;
-            _firstItem = !_firstItem;
-        }
+        ObjConfig bowlToUse = bowls[UnityEngine.Random.Range(0, bowls.Count - 1)];
+        GameObject g = Instantiate(Resources.Load(bowlToUse.objName) as GameObject);
+        g.transform.position = _cam.ScreenToWorldPoint(new Vector3(((c.centre[3]) / 100) * _cam.pixelWidth, ((100-c.centre[2]) / 100) * _cam.pixelHeight, 1.75f));
+        g.transform.position += g.transform.up * -0.25f;
+        g.transform.rotation = Quaternion.Euler(new Vector3(-64 + 0.646f, 5- 4.331f, -4 - 8.968f)); //hardcoded rotation of bowl
+        _initTable(g, bowlToUse);
     }
 
-    private void loadCup(CropData c)
+    private void _loadCup(CropData c)
     {
-        GameObject g = Instantiate(Resources.Load(configs[0].objName) as GameObject);
+        List<ObjConfig> cups = new List<ObjConfig>();
+        for (int i = 0; i < configs.Count; i++)
+            if (configs[i].type == "cup")
+                cups.Add(configs[i]);
+        ObjConfig cupToUse = cups[UnityEngine.Random.Range(0, cups.Count - 1)];
+        GameObject g = Instantiate(Resources.Load(cupToUse.objName) as GameObject);
         g.transform.position = _cam.ScreenToWorldPoint(new Vector3(((c.centre[3]) / 100) * _cam.pixelWidth, ((100-c.centre[2]) / 100) * _cam.pixelHeight, 1.5f));
-        g.transform.rotation = Quaternion.Euler(new Vector3(7, 55, 23)); //hardcoded rotation of cup
+        g.transform.rotation = Quaternion.Euler(new Vector3(-64, -5, -4)); //hardcoded rotation of cup
+        _initTable(g, cupToUse);
+    }
 
-
+    private void _initTable(GameObject g, ObjConfig obj)
+    {
         if (_firstItem)
         {
-            table = Instantiate(Resources.Load("tables\\standard") as GameObject, g.transform);
-            table.transform.localPosition = new Vector3(0, configs[0].rel_base, 0);
+            switch (_style)
+            {
+                case 0:
+                    table = Instantiate(Resources.Load("tables\\Plane") as GameObject, g.transform);
+                    break;
+                case 1:
+                    table = Instantiate(Resources.Load("tables\\standard") as GameObject, g.transform);
+                    break;
+            }
+            table.transform.localPosition = new Vector3(0, obj.rel_base, 0);
             table.transform.rotation = g.transform.rotation;
             _firstItem = !_firstItem;
         }
     }
 
-    private void loadObjectConfig()
+    private void _loadObjectConfig()
     {
 
         TextAsset t = (Resources.Load("ObjConfig") as TextAsset);
@@ -120,7 +134,7 @@ public class SceneBuilder : MonoBehaviour {
                 }
     }
 
-    private void resetWorldOrientation()
+    private void _resetWorldOrientation()
     {
         foreach(GameObject g in GameObject.FindObjectsOfType<GameObject>())
         {
@@ -130,9 +144,10 @@ public class SceneBuilder : MonoBehaviour {
             }
         }
         table.transform.up = Vector3.up;
+
     }
 
-    private void loadSceneDataToBuild()
+    private void _loadSceneDataToBuild()
     {
         try
         {
