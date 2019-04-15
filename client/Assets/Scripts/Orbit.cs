@@ -7,7 +7,7 @@ public class Orbit : MonoBehaviour
     public float speed = 1;
     private Vector3 _centrePoint;
 
-    public Vector3 centrePoint
+    public Vector3 CentrePoint
     {
         get
         {

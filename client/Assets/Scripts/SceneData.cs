@@ -5,18 +5,18 @@ using LitJson;
 using UnityEngine;
 
 public class SceneData : MonoBehaviour {
-    ParsedData _data;
     public ParsedData Data {
         get { return _data; }
         set { _data = value; }
     }
-    private int _style;
     public int Style
     {
         get { return _style; }
         set { _style = value; }
     }
 
+    private int _style;
+    ParsedData _data;
     string _rawRequestData;
         
     public void ParseData(string json)
@@ -24,7 +24,7 @@ public class SceneData : MonoBehaviour {
         _rawRequestData = json;
         if (Metrics.Instance.MetricsEnabled)
             Metrics.Instance.FullResponse = _rawRequestData;
-        _data = JsonUtility.FromJson<ParsedData>(cleanRequestData());
+        _data = JsonUtility.FromJson<ParsedData>(_cleanRequestData());
 
     }
 
@@ -33,7 +33,7 @@ public class SceneData : MonoBehaviour {
         DontDestroyOnLoad(this);
     }
 
-    private string cleanRequestData()
+    private string _cleanRequestData()
     {
         return _rawRequestData.TrimStart('[', '"').Replace("\"]", "").Replace("\\", "").Replace("}\"", "}");
     }
@@ -61,11 +61,4 @@ public struct Keypoints
     public float averageDepth;
     public float[] orientRet;
     public float[] points;
-}
-
-struct objConfig
-{
-    public int objId;
-    public string objName;
-    public float rel_base;
 }

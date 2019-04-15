@@ -45,7 +45,7 @@ public class FileDialogue : MonoBehaviour {
         else
             temp.button.GetComponentInChildren<Text>().text = temp.filename;
         temp.button.name = "btn" + temp.filename;
-        temp.button.GetComponent<Button>().onClick.AddListener(delegate { btnClick(temp); });
+        temp.button.GetComponent<Button>().onClick.AddListener(delegate { _btnClick(temp); });
         temp.button.GetComponent<Button>().onClick.AddListener(delegate { imgldr.LoadImageToUI(); });
         foundFiles.Add(temp);
     }
@@ -91,7 +91,7 @@ public class FileDialogue : MonoBehaviour {
         xOffset = -350;
     }
 
-    private void loadDirectories()
+    private void _loadDirectories()
     {
         string[] directories = Directory.GetDirectories(sourceDirectory);
         foreach (string currentDir in directories)
@@ -106,7 +106,7 @@ public class FileDialogue : MonoBehaviour {
         }
     }
 
-    private void loadFiles()
+    private void _loadFiles()
     {
         string[] txtFiles = Directory.GetFiles(sourceDirectory, "*.jpg");
 
@@ -129,8 +129,8 @@ public class FileDialogue : MonoBehaviour {
             CurrentDirectory.text = sourceDirectory;
             _resetVars();
             _initParentDirectoryButton();
-            loadDirectories();
-            loadFiles();
+            _loadDirectories();
+            _loadFiles();
         }
         catch (System.Exception e)
         {
@@ -138,7 +138,7 @@ public class FileDialogue : MonoBehaviour {
         }
     }
 
-    void btnClick(SelectedFile arg)
+    private void _btnClick(SelectedFile arg)
     {
         arg.button.gameObject.transform.parent.parent.parent.parent.gameObject.SetActive(false);
         var fileInfo = new System.IO.FileInfo(arg.filepath);

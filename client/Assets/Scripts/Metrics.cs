@@ -14,7 +14,7 @@ public class Metrics : MonoBehaviour {
         get { return _metricsDirectory; }
         set { _metricsDirectory = value; }
     }
-    public float reqTime {
+    public float ReqTime {
         get { return _reqTime; }
     }
     public float ImageSize
@@ -26,7 +26,6 @@ public class Metrics : MonoBehaviour {
     {
         set { _dumpMetrics = value; }
     }
-
     public string FullResponse
     {
         get
@@ -55,16 +54,10 @@ public class Metrics : MonoBehaviour {
     private float _imgSize;
     private string _metricsDirectory;
     private bool _dumpMetrics;
-    private float imageSize;
+    private float _imageSize;
     private bool _timerActive;
     private bool _metricsEnabled = false;
-
     private string _fullResponse;
-
-    public void TimerActiveSwitch()
-    {
-        _timerActive = !_timerActive;
-    }
 
 	void Start () {
         if (Metrics.Instance == null)
@@ -77,12 +70,17 @@ public class Metrics : MonoBehaviour {
             _reqTime += Time.deltaTime;
 	}
 
+    public void TimerActiveSwitch()
+    {
+        _timerActive = !_timerActive;
+    }
+
     private void OnApplicationQuit()
     {
         if (_dumpMetrics)
         {
             SavedMetrics s = new SavedMetrics();
-            s.RequestTime = reqTime + "s";
+            s.RequestTime = ReqTime + "s";
             s.FileSize = ImageSize + "Mb";
             s.keypoints = GameObject.FindGameObjectWithTag("Global").GetComponent<SceneData>().Data.keypoints;
 

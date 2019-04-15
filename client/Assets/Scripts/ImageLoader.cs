@@ -8,17 +8,15 @@ using UnityEngine.UI;
 public class ImageLoader : MonoBehaviour {
     public Image img;
 
-    public event EventHandler imageDetected;
-
 	public void LoadImageToUI()
     {
         if (!img.gameObject.activeInHierarchy)
             img.gameObject.SetActive(true);
-        img.sprite = loadPngFile();
+        img.sprite = _loadPngFile();
         
     }
 
-    private Sprite loadPngFile()
+    private Sprite _loadPngFile()
     {
         Texture2D tex = null;
         byte[] fileData;

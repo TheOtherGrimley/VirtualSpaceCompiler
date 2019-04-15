@@ -46,7 +46,7 @@ public class SceneBuilder : MonoBehaviour {
 
         RaycastHit hit;
         if(Physics.Raycast(_cam.transform.position, _cam.transform.forward, out hit, 10)){
-            _cam.GetComponent<Orbit>().centrePoint = hit.point;
+            _cam.GetComponent<Orbit>().CentrePoint = hit.point;
         }
 
         if (Metrics.Instance.MetricsEnabled)
@@ -56,6 +56,29 @@ public class SceneBuilder : MonoBehaviour {
         }
         else
             MetricsPanel.SetActive(true);
+    }
+
+    public void SaveScene()
+    {
+        ObjectsToSave objects = new ObjectsToSave();
+        objects.ObjectList = new List<SaveObject>();
+
+        foreach (GameObject g in FindObjectsOfType<GameObject>())
+        {
+            SaveObject temp = new SaveObject();
+            temp.name = g.name;
+            temp.position = g.transform.position;
+            temp.Rotation = g.transform.rotation.eulerAngles;
+            objects.ObjectList.Add(temp);
+        }
+
+        if (Metrics.Instance.MetricsDirectory == null)
+        {
+            if (!Directory.Exists(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "//VSCLogs"))
+                Directory.CreateDirectory(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "//VSCLogs");
+            Metrics.Instance.MetricsDirectory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "//VSCLogs";
+        }
+        File.WriteAllText(Metrics.Instance.MetricsDirectory + "\\scene-" + DateTime.Now.ToFileTime()+".json", JsonUtility.ToJson(objects, true));
     }
 
     private void _loadBowl(CropData c)
@@ -159,36 +182,13 @@ public class SceneBuilder : MonoBehaviour {
                 SceneManager.LoadScene(0);
             }
         }
-        catch(System.NullReferenceException e )
+        catch(System.NullReferenceException)
         {
             if (!InDebug) {
                 Debug.LogError("No global data found, loading main menu.");
                 SceneManager.LoadScene(0);
             }
         }
-    }
-
-    public void SaveScene()
-    {
-        ObjectsToSave objects = new ObjectsToSave();
-        objects.ObjectList = new List<SaveObject>();
-
-        foreach (GameObject g in FindObjectsOfType<GameObject>())
-        {
-            SaveObject temp = new SaveObject();
-            temp.name = g.name;
-            temp.position = g.transform.position;
-            temp.Rotation = g.transform.rotation.eulerAngles;
-            objects.ObjectList.Add(temp);
-        }
-
-        if (Metrics.Instance.MetricsDirectory == null)
-        {
-            if (!Directory.Exists(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "//VSCLogs"))
-                Directory.CreateDirectory(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "//VSCLogs");
-            Metrics.Instance.MetricsDirectory = System.Environment.GetFolderPath(System.Environment.SpecialFolder.Desktop) + "//VSCLogs";
-        }
-        File.WriteAllText(Metrics.Instance.MetricsDirectory + "\\scene-" + DateTime.Now.ToFileTime()+".json", JsonUtility.ToJson(objects, true));
     }
 
     [System.Serializable]
@@ -210,7 +210,6 @@ public class SceneBuilder : MonoBehaviour {
         public int objId;
         public string objName;
         public float rel_base;
-        public int style;
         public string type;
     }
 }

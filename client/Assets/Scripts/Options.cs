@@ -5,20 +5,19 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Options : MonoBehaviour {
-    
     public Text timerText;
     public Text imageSize;
     public GameObject metricsDirectory;
 
     private void Start()
     {
-        metricsDirectory.GetComponent<InputField>().onEndEdit.AddListener(delegate { checkDirectory(metricsDirectory.GetComponent<InputField>().text); });
+        metricsDirectory.GetComponent<InputField>().onEndEdit.AddListener(delegate { _checkDirectory(metricsDirectory.GetComponent<InputField>().text); });
     }
 
     void Update () {
         if (Metrics.Instance.MetricsEnabled)
         {
-            timerText.text = Metrics.Instance.reqTime.ToString("F1") + "s";
+            timerText.text = Metrics.Instance.ReqTime.ToString("F1") + "s";
             imageSize.text = Metrics.Instance.ImageSize.ToString("F2") + "Mb";
         }
 	}
@@ -28,7 +27,7 @@ public class Options : MonoBehaviour {
         Metrics.Instance.MetricsEnabled = show;
     }
 
-    void checkDirectory(string dir)
+    private void _checkDirectory(string dir)
     {
         if (Directory.Exists(dir))
             Metrics.Instance.MetricsDirectory = dir;

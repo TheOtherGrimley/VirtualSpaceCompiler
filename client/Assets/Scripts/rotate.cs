@@ -7,7 +7,6 @@ public class rotate : MonoBehaviour {
     public float yIntensity;
     public float zIntensity;
 
-	
 	// Update is called once per frame
 	void Update () {
         this.gameObject.transform.Rotate(new Vector3(xIntensity, yIntensity, zIntensity));

@@ -45,7 +45,7 @@ public class Menu : MonoBehaviour {
 
         else
         {
-            ButtonInteractChange(false);
+            _buttonInteractChange(false);
             byte[] bytes = File.ReadAllBytes(ActiveFile.filepath);
             string img = System.Convert.ToBase64String(bytes);
 
@@ -54,11 +54,6 @@ public class Menu : MonoBehaviour {
         }
     }
 
-    void ButtonInteractChange(bool canInteract)
-    {
-        foreach (Button b in _menuButtons)
-            b.interactable = canInteract;
-    }
 
     public void ReturnToMainMenu()
     {
@@ -71,6 +66,12 @@ public class Menu : MonoBehaviour {
             _objectsToDetect.Add(obj);
         else
             _objectsToDetect.Remove(obj);
+    }
+
+    private void _buttonInteractChange(bool canInteract)
+    {
+        foreach (Button b in _menuButtons)
+            b.interactable = canInteract;
     }
 
     IEnumerator SendRequest(string img)
@@ -93,13 +94,13 @@ public class Menu : MonoBehaviour {
         {
             LoadingCube.SetActive(false);
             Debug.Log(req.error);
-            ButtonInteractChange(true);
+            _buttonInteractChange(true);
             Metrics.Instance.TimerActiveSwitch();
         }
         else
         {
             LoadingCube.SetActive(false);
-            ButtonInteractChange(true); //For debug, change in final
+            _buttonInteractChange(true); //For debug, change in final
             Debug.Log("Upload complete!");
             GameObject.FindGameObjectWithTag("Global").GetComponent<SceneData>().ParseData(req.downloadHandler.text);
             Metrics.Instance.TimerActiveSwitch();
